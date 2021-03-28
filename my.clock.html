@@ -1,0 +1,105 @@
+<h4>Seong Hwan clock<h4>
+    <hr>
+    
+    <html>
+        <body>
+        <canvas id="manduClock" width="480" height="480"></canvas>
+        <script type="text/javascript">
+            var canvas= document.getElementById("manduClock");
+            var cx = canvas.getContext("2d");
+            <!-- 시계 중심 -->
+            var numX = 240;
+            var numY = 240;
+            var dist = Math.PI/180; 
+            setInterval(
+                function(){
+                    canvas.width = canvas.width;
+        
+                    <!-- 그림자 적용 시작 -->
+                    cx.shadowOffsetX = 1;
+                    cx.shadowOffsetY = 1;
+                    cx.shadowColor = "black";
+                    cx.shadowBlur = 2;
+                    cx.fillStyle = "white";
+                    cx.fill();
+                    <!-- 그림자 적용 끝. 왜 하트 그림자 색은 여전히 파란색일까? -->
+                
+                    <!-- 하트 테두리 그리기 시작 -->
+                    cx.beginPath();
+                    cx.arc(140,130,100,150*Math.PI/180,0, false);
+                    cx.arc(340,130,100,180*Math.PI/180,30*Math.PI/180, false);
+                    cx.lineTo(360,300);
+                    cx.quadraticCurveTo(240,500,120,300);
+                    cx.closePath();
+                
+                    var g = cx.createRadialGradient(140,140,0,70,70,500);
+                    g.addColorStop(0,"cyan");
+                    g.addColorStop(1,"blue");
+                    cx.fillStyle = g;
+                    cx.fill();	
+                    <!-- 하트 테두리 그리기 끝 -->
+                    
+                    <!-- 시간 숫자 표시 시작 -->
+                    cx.textAlign = "center";
+                    cx.textBaseline = "middle";
+                    cx.font = "bold 25px sans-serif";
+                    cx.fillStyle = "black";
+                    cx.fillText("1",numX+(110*Math.cos(300 * dist)),numY+(110*Math.sin(300 * dist)));
+                    cx.fillText("2",numX+(110*Math.cos(330 * dist)),numY+(110*Math.sin(330 * dist)));
+                    cx.fillText("3",numX+(110*Math.cos(0 * dist)),numY+(110*Math.sin(0 * dist)));
+                    cx.fillText("4",numX+(110*Math.cos(30 * dist)),numY+(110*Math.sin(30 * dist)));
+                    cx.fillText("5",numX+(110*Math.cos(60 * dist)),numY+(110*Math.sin(60 * dist)));
+                    cx.fillText("6",numX+(110*Math.cos(90 * dist)),numY+(110*Math.sin(90 * dist)));
+                    cx.fillText("7",numX+(110*Math.cos(120 * dist)),numY+(110*Math.sin(120 * dist)));
+                    cx.fillText("8",numX+(110*Math.cos(150 * dist)),numY+(110*Math.sin(150 * dist)));
+                    cx.fillText("9",numX+(110*Math.cos(180 * dist)),numY+(110*Math.sin(180 * dist)));
+                    cx.fillText("10",numX+(110*Math.cos(210 * dist)),numY+(110*Math.sin(210 * dist)));
+                    cx.fillText("11",numX+(110*Math.cos(240 * dist)),numY+(110*Math.sin(240 * dist)));
+                    cx.fillText("12",numX+(110*Math.cos(270 * dist)),numY+(110*Math.sin(270 * dist)));
+                    <!-- 시간 숫자 표시 끝 -->
+                    <!-- 초침 시작 -->
+                    cx.beginPath();
+                    cx.moveTo(numX, numY);
+                    var sec = new Date().getSeconds();
+                    var secAng = 360/60 * sec * dist +300;
+                    cx.moveTo(numX, numY);
+                    cx.lineTo(numX+(90*Math.cos(secAng)), numY+(90*Math.sin(secAng)));
+                    cx.stroke();
+                    <!-- 초침 끝 -->
+                    <!-- 분침 시작 -->
+                    cx.beginPath();
+                    cx.moveTo(numX, numY);
+                    var min = new Date().getMinutes();
+                    var minAng = 360/60 * min * dist +300;
+                    cx.moveTo(numX, numY);
+                    cx.lineTo(numX+(70*Math.cos(minAng)), numY+(70*Math.sin(minAng)));
+                    cx.stroke();
+                    <!-- 분침 끝 -->
+                    <!-- 시침 시작 -->
+                    cx.beginPath();
+                    cx.moveTo(numX, numY);
+                    var hour = new Date().getHours();
+                    var ap = hour / 2;
+                    hour = hour%12;
+                    var hourAng = 360/12 * hour * dist +300;
+                    cx.moveTo(numX, numY);
+                    cx.lineTo(numX+(50*Math.cos(hourAng)), numY+(50*Math.sin(hourAng)));
+                    cx.stroke();
+                    <!-- 시침 끝 -->
+                    
+                    if(ap = 1){
+                        cx.fillText("PM",150,420);
+                    } else {
+                        cx.fillText("AM",150,420);
+                    }
+                    cx.fillText(hour+" : ",200,420);
+                    cx.fillText(min+" : ",250,420);
+                    cx.fillText(sec,300,420);
+                }, 500
+            );
+        
+        </script>
+        </body>
+        </html>
+        
+        
